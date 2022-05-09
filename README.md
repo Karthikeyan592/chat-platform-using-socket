@@ -1,3 +1,3 @@
 # chat-platform-using-socket
-networks package
-for sharing the code and work together.
+
+for sharing the code and working together.
