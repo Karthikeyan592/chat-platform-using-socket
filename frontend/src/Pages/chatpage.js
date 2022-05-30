@@ -1,16 +1,13 @@
-import React, { useEffect , useState }  from 'react';
+import React, { useEffect }  from 'react';
 import axios from 'axios';
 
 
-const chatpage = () => {
-
-    const [chats, setChats] = useState([]);
+const Chatpage = () => {
+    // const [chats, setChats] = useState([]);
     const fetchChats = async () => {
         const data = await axios.get('/api/chat');
 
         console.log(data);
-
-        
     };
 
     useEffect(() => {
@@ -19,9 +16,9 @@ const chatpage = () => {
     
 
   return (
-    <div>chatpage</div>
+    <div>Chat Page</div>
   )
 }
 
 
-export default chatpage;
+export default Chatpage;
