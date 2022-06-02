@@ -1,13 +1,86 @@
 import {React,useState} from 'react'
-import { Button, VStack, FormControl, FormLabel, Input, InputGroup } from '@chakra-ui/react'
+import { Button, VStack, FormControl, FormLabel, Input } from '@chakra-ui/react'
+import {useToast} from "@chakra-ui/react";
+import axios from "axios";
 
-const submitHandler = () => {};
+//useNavigate is used instead of Usehistory as it was showning error
+import useNavigate from "react-router-dom";
 
 const Signup = () => {
     const [name, setname] = useState();
     const [email, setemail] = useState();
     const [password, setpassword] = useState()
     const [confirmpassword, setconfirmpassword] = useState();
+    // const [pic, setPic] = useState();
+    // const [Loading, setLoading] = useState(false);
+    const toast = useToast();
+
+    //navigate replaces history.push()
+    const navigate = useNavigate();
+    
+    const submitHandler = async () => {
+
+        if (!name || !email || !password || !confirmpassword){
+            toast({
+                title: "Please Fill all the Feilds",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+              });
+
+              return;
+        }    
+      
+        if (password !== confirmpassword) {
+          toast({
+            title: "Passwords Do Not Match",
+            status: "warning",
+            duration: 5000,
+            isClosable: true,
+            position: "bottom",
+          });
+          return;
+        }
+
+
+        try{
+            const config = {
+                headers: {
+                    "Content-type":"application/json",
+                },
+            };
+
+            const {data} = await axios.post(
+                "/api/user",
+                {name,email,password},
+                config
+            );
+
+            toast({
+                title: "Registration Successful",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+            });
+
+            localStorage.setItem('userInfo',JSON.stringify(data));
+            navigate('/chats');
+        } catch(error){
+            toast({
+                title: "Error Occured!",
+                description: error.response.data.message,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+              });
+        }
+    };
+        
+
+
   return (
     <VStack spacing="5px" color='black'>
         <FormControl id='first-name' isRequired>
