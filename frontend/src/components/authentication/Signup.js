@@ -4,7 +4,7 @@ import {useToast} from "@chakra-ui/react";
 import axios from "axios";
 
 //useNavigate is used instead of Usehistory as it was showning error
-import useNavigate from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const Signup = () => {
     const [name, setname] = useState();
