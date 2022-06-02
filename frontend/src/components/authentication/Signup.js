@@ -3,8 +3,7 @@ import { Button, VStack, FormControl, FormLabel, Input } from '@chakra-ui/react'
 import {useToast} from "@chakra-ui/react";
 import axios from "axios";
 
-//useNavigate is used instead of Usehistory as it was showning error
-import {useNavigate} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 const Signup = () => {
     const [name, setname] = useState();
@@ -15,8 +14,7 @@ const Signup = () => {
     // const [Loading, setLoading] = useState(false);
     const toast = useToast();
 
-    //navigate replaces history.push()
-    const navigate = useNavigate();
+    const history = useHistory();
     
     const submitHandler = async () => {
 
@@ -66,7 +64,7 @@ const Signup = () => {
             });
 
             localStorage.setItem('userInfo',JSON.stringify(data));
-            navigate('/chats');
+            history.push('/chats');
         } catch(error){
             toast({
                 title: "Error Occured!",
