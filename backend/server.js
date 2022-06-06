@@ -7,7 +7,6 @@ const {notFound,errorHandler}= require("./middlewares/errorMiddleware");
 const chatRoutes = require('./routes/chatRoutes');
 
 
-
 const app = express();
 dotenv.config();
 connectDB();
