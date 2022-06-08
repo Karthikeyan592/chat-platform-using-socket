@@ -10,9 +10,9 @@ const Homepage = () => {
   const history = useHistory();
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const user = JSON.parse(localStorage.getItem("userInfo"));
 
-    if (!userInfo) history.push("/chats");
+    if (user) {history.push("/chats");}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history]);
 

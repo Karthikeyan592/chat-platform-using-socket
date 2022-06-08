@@ -7,7 +7,7 @@ import SideDrawer from "../components/miscellaneous/SideDrawer";
 import ChatBox from '../components/ChatBox';
  
 const Chatpage = () => {
-    const [fetchAgain,setFetchAgain] = useState(false);
+    // const [fetchAgain,setFetchAgain] = useState(false);
     const { user } = ChatState();
 
   return (
