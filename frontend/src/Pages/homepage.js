@@ -3,7 +3,7 @@ import {Container,Box,Text,Tab,TabList,TabPanel,TabPanels,Tabs} from "@chakra-ui
 import Login from "../components/authentication/Login"
 import Signup from "../components/authentication/Signup"
 import { useEffect } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 const Homepage = () => {
 
