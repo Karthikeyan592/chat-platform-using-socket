@@ -1,13 +1,21 @@
 import { Box, Text } from "@chakra-ui/layout";
 import {
   Avatar,
-  Menu,
-  MenuButton,
   Tooltip
 } from "@chakra-ui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/menu";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { Button } from "@chakra-ui/button";
 import { useState } from "react";
+import { ChatState } from "../../Context/ChatProvider";
+import ProfileModal from "./ProfileModal";
+import { useHistory } from "react-router-dom";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -15,10 +23,18 @@ const SideDrawer = () => {
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
   
+  const {user} = ChatState();
+  const history = useHistory();
+
+  const logoutHandler = () => {
+    localStorage.removeItem("userInfo");
+    history.push("/");
+  };
+
   return (
     <div>
       <Box
-        d="flex"
+        display="flex"
         justifyContent="space-between"
         alignItems="center"
         bg="white"
@@ -35,7 +51,7 @@ const SideDrawer = () => {
           </Button>
         </Tooltip>
         <Text fontSize="2xl" fontFamily="Work sans">
-          Talk-A-Tive
+          Socket Chat
         </Text>
         <div>
           <Menu>
@@ -48,9 +64,16 @@ const SideDrawer = () => {
           </Menu>
           <Menu>
             <MenuButton as={Button} righticon={<ChevronDownIcon />}>
-               <Avatar size="sm" cursor="pointer" name=''/>
+               <Avatar size="sm" cursor="pointer" name={user.name} src={user.pic}/>
             </MenuButton>
-            
+            <MenuList>
+              <ProfileModal user={user}>
+                <MenuItem>Profile</MenuItem>
+              </ProfileModal>
+              
+              <MenuDivider/>
+              <MenuItem onClick={logoutHandler}>Log Out</MenuItem>
+            </MenuList>
           </Menu>
         </div>
       </Box>
