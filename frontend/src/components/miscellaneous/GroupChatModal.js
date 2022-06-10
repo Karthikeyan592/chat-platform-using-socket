@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormControl, Input, useDisclosure } from '@chakra-ui/react';
+import { Box, FormControl, Input, useDisclosure } from '@chakra-ui/react';
 import {
     Modal,
     ModalOverlay,
@@ -15,7 +15,8 @@ import {
 import { useState } from 'react';
 import { ChatState } from '../../Context/ChatProvider';
 import axios from 'axios';
-
+import UserListItem from "../UserAvatar/UserListItem";
+import UserBadgeItem from '../UserAvatar/UserBadgeItem';
 
 const GroupChatModal = ({children}) => {
 
@@ -44,14 +45,14 @@ const GroupChatModal = ({children}) => {
                 },
             };
 
-            const {data} = await axios.get(`/api/user/search/${query}`,config);
-            setSearchResult(data);
-            setLoading(false);
+            const {data} = await axios.get(`/api/user?search=${Search}`,config);
             console.log(data);
+            setLoading(false);
+            setSearchResult(data);
         }catch(error){
             toast({
-                title: "Error fetching the chat",
-                description: error.message,
+                title: "Error Occured",
+                description: "Failed to load search message",
                 status: "error",
                 duration: 5000,
                 isClosable: true,
@@ -61,6 +62,23 @@ const GroupChatModal = ({children}) => {
     };
     const handleSubmit=()=>{};
 
+    const handleGroup=(userToAdd)=>{
+      if (SelectedUsers.includes(userToAdd)) {
+        toast({
+          title: "User already added",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+        return;
+      }
+  
+      setSelectedUsers([...SelectedUsers, userToAdd]);
+
+    };
+
+    const handleDelete=(userToDelete)=>{};
     return (
         <>
           <span onClick={onOpen}>{children}</span>
@@ -88,8 +106,29 @@ const GroupChatModal = ({children}) => {
                 <FormControl>
                     <Input placeholder="Add users" mb={3} onChange={(e)=> handleSearch(e.target.value)}/>
                 </FormControl>
-                {/* selectedUsers */}
-                {/* render searched chats */}
+                <Box w="100%" d="flex" flexWrap="wrap">
+                  {SelectedUsers.map((u) => (
+                    <UserBadgeItem
+                      key={u._id}
+                      user={u}
+                      handleFunction={() => handleDelete(u)}
+                    />
+                  ))}
+                </Box>
+                {Loading ? (
+              // <ChatLoading />
+              <div>Loading...</div>
+                  ) : (
+                    SearchResult
+                      ?.slice(0, 4)
+                      .map((user) => (
+                        <UserListItem
+                          key={user._id}
+                          user={user}
+                          handleFunction={() => handleGroup(user)}
+                        />
+                      ))
+                  )}
               </ModalBody>
     
               <ModalFooter>
