@@ -1,10 +1,11 @@
 import React from 'react'
 import { Box } from "@chakra-ui/layout";
+import SingleChat from './SingleChat';
 
-const ChatBox = () => {
+const ChatBox = ({fetchAgain,setFetchAgain}) => {
   return (
     <Box
-    alignItems="center"
+      alignItems="center"
       flexDir="column"
       p={3}
       bg="white"
@@ -12,7 +13,7 @@ const ChatBox = () => {
       borderRadius="lg"
       borderWidth="1px"
     >
-      . . .
+      <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}/>
     </Box>
   )
 }

@@ -9,7 +9,6 @@ import {
     ModalBody,
     ModalCloseButton,
     Button,
-    Text,
     useToast
   } from "@chakra-ui/react";
 import { useState } from 'react';
@@ -22,7 +21,7 @@ const GroupChatModal = ({children}) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [GroupChatName, setGroupChatName] = useState();
-    const [SelectedUsers, setSelectedUsers] = useState();
+    const [SelectedUsers, setSelectedUsers] = useState([]);
     const [Search, setSearch] = useState();
     const [SearchResult, setSearchResult] = useState();
     const [Loading, setLoading] = useState();
@@ -60,7 +59,44 @@ const GroupChatModal = ({children}) => {
               });
         }
     };
-    const handleSubmit=()=>{};
+    const handleSubmit= async () =>{
+      if(!GroupChatName || !SelectedUsers){
+        toast({
+          title: "Please fill all thefields",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+        return;
+      }
+      try{
+        const config = {
+          headers: {
+              Authorization: `Bearer ${user.token}`,
+          },
+        };
+  
+        const {data} = await axios.post("/api/chat/group",{
+          name:GroupChatName,
+          users:JSON.stringify(SelectedUsers.map(user=>user._id))
+          },config);
+          setChats([data, ...chats]);
+          onClose();
+      }catch(error){
+        toast({
+          title: "Failed to create group chat",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+      }
+
+    };
+
+    
+
 
     const handleGroup=(userToAdd)=>{
       if (SelectedUsers.includes(userToAdd)) {
@@ -78,7 +114,9 @@ const GroupChatModal = ({children}) => {
 
     };
 
-    const handleDelete=(userToDelete)=>{};
+    const handleDelete=(delUser)=>{
+      setSelectedUsers(SelectedUsers.filter((sel)=> sel._id !== delUser._id));
+    };
     return (
         <>
           <span onClick={onOpen}>{children}</span>
@@ -106,7 +144,7 @@ const GroupChatModal = ({children}) => {
                 <FormControl>
                     <Input placeholder="Add users" mb={3} onChange={(e)=> handleSearch(e.target.value)}/>
                 </FormControl>
-                <Box w="100%" d="flex" flexWrap="wrap">
+                <Box w="100%" display="flex" flexWrap="wrap">
                   {SelectedUsers.map((u) => (
                     <UserBadgeItem
                       key={u._id}
@@ -135,7 +173,6 @@ const GroupChatModal = ({children}) => {
                 <Button colorScheme='blue' mr={3} onClick={handleSubmit}>
                   Create Chat
                 </Button>
-                <Button variant='ghost'>Secondary Action</Button>
               </ModalFooter>
             </ModalContent>
           </Modal>

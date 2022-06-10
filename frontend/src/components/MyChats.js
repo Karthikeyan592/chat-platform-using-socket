@@ -9,7 +9,8 @@ import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
 import {getSender} from "../config/ChatLogics";
 import GroupChatModal from './miscellaneous/GroupChatModal';
-const MyChats = () => {
+
+const MyChats = ({fetchAgain}) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
 
@@ -43,7 +44,7 @@ const MyChats = () => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
     // eslint-disable-next-line
-  }, []);
+  }, [fetchAgain]);
 
   return <Box
   d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
@@ -60,7 +61,7 @@ const MyChats = () => {
     px={3}
     fontSize={{ base: "28px", md: "30px" }}
     fontFamily="Work sans"
-    d="flex"
+    display="flex"
     w="100%"
     justifyContent="space-between"
     alignItems="center"
@@ -79,7 +80,7 @@ const MyChats = () => {
         
     </Box>
     <Box
-        d="flex"
+        display="flex"
         flexDir="column"
         p={3}
         bg="#F8F8F8"
