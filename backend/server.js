@@ -22,6 +22,21 @@ app.use('/api/user',userRoutes);
 app.use('/api/chat',chatRoutes);
 app.use("/api/message",messageRoutes);   
 
+
+// ----------------deployment---------------
+const _dirname1 = path.resolve();
+if(process.env.NODE_EVN === 'production'){
+    app.use(express.static(path.join(__dirname1,"/frontend/build")));
+
+    app.get('*',(req,res)=>{res.sendFile(__dirname1,"/frontend/build/index.html")});
+}
+else{
+    app.get("/", (req, res) => {
+        res.send("API is running..");
+      });
+}
+
+
 app.use(notFound);
 app.use(errorHandler);
 
