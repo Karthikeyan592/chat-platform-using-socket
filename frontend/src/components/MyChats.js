@@ -80,12 +80,11 @@ const MyChats = ({fetchAgain}) => {
         
     </Box>
     <Box
-        display="flex"
+        d="flex"
         flexDir="column"
         p={3}
         bg="#F8F8F8"
         w="100%"
-        h="100%"
         borderRadius="lg"
         overflowY="hidden"
       >

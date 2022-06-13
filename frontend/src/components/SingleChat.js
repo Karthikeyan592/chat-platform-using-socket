@@ -209,7 +209,7 @@ const SingleChat = ({fetchAgain,setFetchAgain}) => {
             p={3}
             bg="#E8E8E8"
             w="100%"
-            h="100%"
+            h="91%"
             borderRadius="lg"
             overflowY="hidden"
         >
