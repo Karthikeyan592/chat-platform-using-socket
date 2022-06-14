@@ -18,7 +18,7 @@ const Homepage = () => {
 
   return (
     <Container maxW="x1" centerContent>
-      <Box d='flex' w="25%" justifyContent='center' borderRadius="lg" borderWidth="3px" borderColor="black" bg="white" p={3} m="50px 0 50px 500px">
+      <Box display='flex' w="25%" justifyContent='center' borderRadius="lg" borderWidth="3px" borderColor="black" bg="white" p={3} m="50px 0 50px 500px">
           <Text fontSize="4xl">Socket Chat</Text>
           <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
               <Tabs>
